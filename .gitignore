@@ -3,3 +3,5 @@
 *chromedriver
 *CallinkCookie.pkl
 *token.pickle
+*C:
+*.DS_Store
