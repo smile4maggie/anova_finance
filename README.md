@@ -1,5 +1,5 @@
 # ANova Finance Reimbursement Script
-This tool streamlines submitting purchase requests on Callink.
+This tool streamlines submitting purchase requests on Callink. Using the Reimbursement Submission Form response spreadsheet, it retrieves ALL Stage 0 purchase requests and puts them all in Stage 1 on Callink. It then updates the spreadsheet so it goes to Stage 1.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ Now, each time you use the script to access Chrome, you login cookie will be sto
 ## Running the Reimbursement Script
 Currently, the script submits all purchase requests that have not been submitted yet (in Stage 0). This is based on the Reimbursement Submission Google Form responses. All purchase requests are in Stage 0 until it is submitted on Callink.
 
-To submit all Stage 0 reimbursements:
+### Submitting all Stage 0 Reimbursements:
 1. MAKE SURE YOU ClOSE ANY OPEN CHROME WINDOWS OR THE SCRIPT WILL NOT WORK!
 2. On the command line, `cd` into the root directory of this project: `/anova_finance`.
 3. Run `python submission.py`
