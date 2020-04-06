@@ -1,5 +1,7 @@
 # ANova Finance Reimbursement Script
-This tool streamlines submitting purchase requests on Callink. Using the Reimbursement Submission Form response spreadsheet, it retrieves ALL Stage 0 purchase requests and puts them all in Stage 1 on Callink. It then updates the spreadsheet so it goes to Stage 1.
+This tool automates submitting purchase requests on Callink using [Selenium](https://www.selenium.dev). Using the Reimbursement Submission Form response spreadsheet, it retrieves ALL Stage 0 purchase requests and puts them all in Stage 1 on Callink.
+
+**You must be a Stage 2 Financial Requester/Agent for the club in order to use this script.**
 
 ## Prerequisites
 
@@ -8,7 +10,7 @@ This tool streamlines submitting purchase requests on Callink. Using the Reimbur
 
 
 ### Enable the Google Sheets API
-1. Go to https://developers.google.com/sheets/api/quickstart/python?authuser=1#step_1_turn_on_the and click the `Enable the Google Sheets API` button.
+1. Go to [Google Sheets API Python Quickstart](https://developers.google.com/sheets/api/quickstart/python?authuser=1#step_1_turn_on_the) and complete Step 1.
 2. If asked to configure your OAuth client, select `Desktop App`.
 3. Click `DOWNLOAD CLIENT CONFIGURATION` and put the downloaded `credentials.json` into `/anova_finance`.
 
@@ -25,8 +27,8 @@ Now, each time you use the script to access Chrome, you login cookie will be sto
 Currently, the script submits all purchase requests that have not been submitted yet (in Stage 0). This is based on the Reimbursement Submission Google Form responses. All purchase requests are in Stage 0 until it is submitted on Callink.
 
 ### Submitting all Stage 0 Reimbursements:
-1. MAKE SURE YOU ClOSE ANY OPEN CHROME WINDOWS OR THE SCRIPT WILL NOT WORK!
+1. **MAKE SURE YOU ClOSE ANY OPEN CHROME WINDOWS OR THE SCRIPT WILL NOT WORK!**
 2. On the command line, `cd` into the root directory of this project: `/anova_finance`.
 3. Run `python submission.py`
 
-Google Chrome should automatically open and visit ANova's finance page on Callink. Do not click anything — the script will automatically fill in the values of the required fields on the Purchase Request Form based on the responses of the Reimbursement Submission Form response spreadsheet and submit them one-by-one.
+Google Chrome should automatically open and visit ANova's finance page on Callink. **Do not click anything** — the script will automatically fill in the values of the required fields on the Purchase Request Form based on the responses of the Reimbursement Submission Form response spreadsheet and submit them one-by-one.

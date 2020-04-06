@@ -25,8 +25,7 @@ pickle.dump(browser.get_cookies(), open("CallinkCookie.pkl","wb"))
 sheet = Reimbursements().build_spreadsheet()
 incomplete = sheet.get_incomplete()
 
-for i in range(len(incomplete)):
-	pr = incomplete[i]
+for pr in incomplete:
 	new_request = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="createRequestToggle"]')))
 	new_request.click()
 	create_pr = browser.find_element_by_xpath('//*[@id="createRequestSection"]/ul/li/a').click()
