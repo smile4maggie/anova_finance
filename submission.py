@@ -74,10 +74,10 @@ for i in range(len(incomplete)):
 	        option.click()
 	        break
 
-	# Submit - Uncomment if you want the script to auto-submit
+	# Submit
 	submit = browser.find_element_by_xpath('//*[@id="saveButton"]').click()
 
-	# Update spreadsheet so that the current purchase request is set to stage 2
-	sheet.set_stage(pr['id'], 2)
+	# Update spreadsheet so that the current purchase request is set to stage 1
+	sheet.set_stage(pr['id'], 1)
 
 browser.close()
