@@ -1,9 +1,9 @@
-# ANova Finance Reimbursement Script
+# ANova Finance Reimbursement Script 💰💵
 This tool automates submitting purchase requests on Callink using [Selenium](https://www.selenium.dev). Using the Reimbursement Submission Form response spreadsheet, it retrieves ALL Stage 0 purchase requests and puts them all in Stage 1 on Callink.
 
 **You must be a Stage 2 Financial Requester/Agent for the club in order to use this script.**
 
-## Prerequisites
+## Prerequisites 💻
 
 ### Install Dependencies
 1. Run `pip install -r requirements.txt` to install all necessary dependencies.
@@ -20,7 +20,6 @@ Since Selenium always opens up a new instance of the browser, you want to save y
 1. Open Google Chrome and log in to your Berkeley email.
 2. In a new tab, go to `chrome://version` and copy your Profile Path. On Mac, it should look something like: ```/Users/name/.../Google/Chrome/Default```
 3. In `submission.py`, paste your profile path as a string to `PROFILE_PATH`.
-4. Exit Google Chrome.
 
 ## Link the Reimbursement Spreadsheet
 We'll create a separate file to store the `SPREADSHEET_ID` of the Reimbursement Submission spreadsheet so that it is not in plain text on GitHub. **This file should never be pushed or committed.**
@@ -28,8 +27,9 @@ We'll create a separate file to store the `SPREADSHEET_ID` of the Reimbursement 
 1. Create a file called `secrets.py`.
 2. On the Reimbursement Submission spreadsheet, copy the spreadsheet id by going to its link. The spreadsheet ID looks like a hash in the link: ```https://docs.google.com/spreadsheets/d/{spreadsheet_id}/edit```
 3. In `secrets.py`, set `SPREADSHEET_ID = 'spreadsheet_id'`. Make sure `SPREADSHEET_ID` is a string.
+4. Exit Google Chrome.
 
-## Running the Reimbursement Script
+## Running the Reimbursement Script 🔥
 Currently, the script submits all purchase requests that have not been submitted yet (in Stage 0). This is based on the Reimbursement Submission Google Form responses. All purchase requests are in Stage 0 until it is submitted on Callink.
 
 ### Submitting all Stage 0 Reimbursements:
