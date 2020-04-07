@@ -18,7 +18,7 @@ try:
 	sheet = Reimbursements()
 	build = sheet.build_spreadsheet()
 	incomplete = sheet.get_incomplete()
-	
+
 	if not incomplete:
 		print("There are no reimbursements in Stage 0.")
 	else:
@@ -58,8 +58,10 @@ try:
 			elif pr['type'] == 'Site':
 				psc = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="96085"]')))
 				psc.click()
+			elif pr['type'] == 'Alcohol':
+				print("Please Venmo: " + pr['first_name'] + ' ' + pr['last_name'] + ', ' + pr['description'])
+				sheet.set_stage(pr['id'], 3)
 			else:
-				print("Skipping Alcohol purchase request for " + pr['first_name'] + ' ' + pr['last_name'] + ', ' + pr['description'])
 				continue 
 
 			# Payee Information

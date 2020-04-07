@@ -69,7 +69,7 @@ class Reimbursements:
                     'expenditure' : row[12],
                     'stage' : row[15]
                 }
-                if pr_dict['first_name'] and pr_dict['type'] != 'Alcohol' and pr_dict['stage'] == '0':
+                if pr_dict['first_name'] and pr_dict['stage'] == '0':
                     incomplete.append(pr_dict)
             return incomplete
 
