@@ -9,6 +9,7 @@ from google.auth.transport.requests import Request
 # If modifying these scopes, delete the file token.pickle.
 # Allows read/write access to the user's sheets and their properties.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+RANGE = 'Form Responses 1!A2:P'
 
 class Reimbursements:
     def __init__(self):

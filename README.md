@@ -15,13 +15,19 @@ This tool automates submitting purchase requests on Callink using [Selenium](htt
 3. Click `DOWNLOAD CLIENT CONFIGURATION` and put the downloaded `credentials.json` into `/anova_finance`.
 
 ### Retrieve your Google Profile
-The reimbursement script requires you to not have any other Chrome windows open, but for you to already be logged into your account to access the reimbursement spreadsheet.
+Since Selenium always opens up a new instance of the browser, you want to save your Berkeley login into a cookie so you don't have to sign in each time you run the script.
 
 1. Open Google Chrome and log in to your Berkeley email.
-2. In a new tab, go to chrome://version and copy your Profile Path. On Mac, it should look something like `/Users/name/.../Google/Chrome/Default`.
+2. In a new tab, go to chrome://version and copy your Profile Path. On Mac, it should look something like: ```/Users/name/.../Google/Chrome/Default```
 3. In `submission.py`, paste your profile path as a string to `PROFILE_PATH`.
+4. Exit Google Chrome.
 
-Now, each time you use the script to access Chrome, you login cookie will be stored in `CallinkCookie.pkl`.
+## Link the Reimbursement Spreadsheet
+We'll create a separate file to store the `SPREADSHEET_ID` of the Reimbursement Submission spreadsheet so that it is not in plain text on GitHub. **This file should never be pushed or committed.**
+
+1. Create a file called `secrets.py`.
+2. On the Reimbursement Submission spreadsheet, copy the spreadsheet id by going to its link. It should look something like: ```https://docs.google.com/spreadsheets/d/spreadsheetId/edit#gid=0```
+3. In `secrets.py`, set `SPREADSHEET_ID = spreadsheetId`.
 
 ## Running the Reimbursement Script
 Currently, the script submits all purchase requests that have not been submitted yet (in Stage 0). This is based on the Reimbursement Submission Google Form responses. All purchase requests are in Stage 0 until it is submitted on Callink.
