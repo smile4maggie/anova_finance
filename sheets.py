@@ -37,8 +37,8 @@ class Reimbursements:
         service = build('sheets', 'v4', credentials=self.creds)
 
         # Call the Sheets API
-        sheet = service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=SPREADSHEET_ID, range=RANGE).execute()
+        self.sheet = service.spreadsheets()
+        result = self.sheet.values().get(spreadsheetId=SPREADSHEET_ID, range=RANGE).execute()
         self.values = result.get('values', [])
 
     def get_spreadsheet(self):
@@ -50,8 +50,8 @@ class Reimbursements:
             print('There are no reimbursement requests in Stage 0.')
         else:
             incomplete = []
-            for i in range(len(values)):
-                row = values[i]
+            for i in range(len(self.values)):
+                row = self.values[i]
                 pr_dict = {
                     'id' : i + 2,
                     'first_name' : row[0],
@@ -73,7 +73,7 @@ class Reimbursements:
                     incomplete.append(pr_dict)
             return incomplete
 
-    def set_stage(pr_id, stage):
+    def set_stage(self, pr_id, stage):
         """
         Sets the purchase request on row pr_id to the specified stage.
         """

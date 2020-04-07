@@ -1,7 +1,6 @@
 *.pyc
 *secrets.py
 *credentials.json
-*chromedriver
 *CallinkCookie.pkl
 *token.pickle
 *C:
