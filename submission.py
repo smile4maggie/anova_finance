@@ -111,14 +111,13 @@ try:
 				browser.get("https://callink.berkeley.edu/actioncenter/organization/anova/finance")
 				continue
 			else:
-				# Submit
+				# Submit and notify member by email
 				submit = browser.find_element_by_xpath('//*[@id="saveButton"]').click()
+				send_email(pr)
 
 				# Update spreadsheet so that the current purchase request is set to stage 1
 				sheet.set_stage(pr['id'], 1)
 				print("Purchase request created for " + title + "\n")
-
-
 
 			# # Send Purchase Request to email
 			# search_bar = browser.find_element_by_xpath('//*[@id="searchValue"]')
