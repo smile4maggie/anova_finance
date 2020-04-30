@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 # If modifying these scopes, delete the file token.pickle.
 # Allows read/write access to the user's sheets and their properties.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-RANGE = 'Form Responses 1!A2:P'
+RANGE = 'Form Responses 1!A2:U'
 
 class Reimbursements:
     def __init__(self):
@@ -67,7 +67,15 @@ class Reimbursements:
                     'email' : row[10],
                     'phone' : row[11],
                     'expenditure' : row[12],
-                    'stage' : row[15]
+                    
+                    # Temporary reimbursements for COVID-19
+                    'date' : row[13],
+                    'expense_type' : row[14],
+                    'vendor' : row[15],
+                    'location' : row[16],
+                    'total' : row[17],
+                    
+                    'stage' : row[20]
                 }
                 if pr_dict['first_name'] and pr_dict['stage'] == '0':
                     incomplete.append(pr_dict)
@@ -77,7 +85,8 @@ class Reimbursements:
         """
         Sets the purchase request on row pr_id to the specified stage.
         """
-        cell = 'Form Responses 1!P' + str(pr_id) + ':P' + str(pr_id) 
+        # The ':U' represents the column where 'Stage' is
+        cell = 'Form Responses 1!P' + str(pr_id) + ':U' + str(pr_id) 
         stage = {'values':[[stage]]}
         self.sheet.values().update(spreadsheetId=SPREADSHEET_ID, 
                                     range=cell, 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pickle
+import pdfkit
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -9,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import InvalidArgumentException
 from sheets import *
+from emailer import *
 
 # Find your profile path by visiting chrome://version in Google Chrome
 PROFILE_PATH = ''
@@ -34,6 +36,14 @@ try:
 		pickle.dump(browser.get_cookies(), open("CallinkCookie.pkl","wb"))
 
 		for pr in incomplete:
+			title = pr['first_name'] + ' ' + pr['last_name'] + ', ' + pr['description']
+			print("Creating purchase request for " + title + "...")
+
+			if pr['type'] == 'Alcohol':
+				print("Please Venmo: " + title + "\n")
+				sheet.set_stage(pr['id'], 3)
+				continue
+
 			new_request = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="createRequestToggle"]')))
 			new_request.click()
 			create_pr = browser.find_element_by_xpath('//*[@id="createRequestSection"]/ul/li/a').click()
@@ -58,11 +68,6 @@ try:
 			elif pr['type'] == 'Site':
 				psc = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="96085"]')))
 				psc.click()
-			elif pr['type'] == 'Alcohol':
-				print("Please Venmo: " + pr['first_name'] + ' ' + pr['last_name'] + ', ' + pr['description'])
-				sheet.set_stage(pr['id'], 3)
-			else:
-				continue 
 
 			# Payee Information
 			first_name = browser.find_element_by_xpath('//*[@id="PayeeFirstName"]').send_keys(pr['first_name'])
@@ -84,11 +89,45 @@ try:
 			        option.click()
 			        break
 
-			# Submit
-			submit = browser.find_element_by_xpath('//*[@id="saveButton"]').click()
+			# Temporary Online Reimbursements during COVID-19
+			expense_date = browser.find_element_by_xpath('//*[@id="answerTextBox-40496834-free"]').send_keys(pr['date'])
+			expense_type = browser.find_element_by_xpath('//*[@id="dropDown-10532762"]')
+			for option in expense_type.find_elements_by_tag_name('option'):
+				if option.text == pr['expense_type']:
+					option.click()
+					break
+			expense_vendor = browser.find_element_by_xpath('//*[@id="answerTextBox-40496846-free"]').send_keys(pr['vendor'])
+			expense_location = browser.find_element_by_xpath('//*[@id="answerTextBox-40496847-free"]').send_keys(pr['location'])
+			expense_total = browser.find_element_by_xpath('//*[@id="answerTextBox-40496852-free"]').send_keys(pr['total'])
 
-			# Update spreadsheet so that the current purchase request is set to stage 1
-			sheet.set_stage(pr['id'], 1)
-			print("Purchase request created for " + pr['first_name'] + ' ' + pr['last_name'] + ', ' + pr['description'])
+			# Attach Receipt
+			receipt = input("Did you manually attach the receipt? (y/n) : ")
+			while receipt != 'y' and receipt != 'n':
+				receipt = input("Did you manually attach the receipt? (y/n) : ")
+
+			if receipt == 'n':
+				print("No receipt attached for " + title)
+				print("Skipping this reimbursement...\n")
+				browser.get("https://callink.berkeley.edu/actioncenter/organization/anova/finance")
+				continue
+			else:
+				# Submit
+				submit = browser.find_element_by_xpath('//*[@id="saveButton"]').click()
+
+				# Update spreadsheet so that the current purchase request is set to stage 1
+				sheet.set_stage(pr['id'], 1)
+				print("Purchase request created for " + title + "\n")
+
+
+
+			# # Send Purchase Request to email
+			# search_bar = browser.find_element_by_xpath('//*[@id="searchValue"]')
+			# search_bar.send_keys(title)
+			# search = browser.find_element_by_xpath('//*[@id="mainContent"]/div/div[2]/div[6]/div[2]/div/div[1]/form/div/span/button/i').click()
+			# link = browser.find_element_by_xpath('//*[@id="PurchaseRequestGrid"]/tbody/tr[1]/td[1]/a').get_attribute('href').replace('PurchaseRequest', 'print')
+			# send_email(link, pr['email'])
+
+			
+
 except InvalidArgumentException:
 	print("Please close all open Google Chrome windows before continuing.")
